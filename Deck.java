@@ -1,4 +1,43 @@
-public class Cards {
+public class Deck {
+
+
+
+   public Deck(){
+
+   }
+
+    public static void createDeck(){
+
+       Card[] cardDeck = {};
+
+       String[] suitList = {"S", "C", "H", "D"};
+
+       int index = 0;
+
+       for (int i = suitList.length;;){
+
+           for (int x = 14;;){
+
+               cardDeck[index] = new Card(x, suitList[i]);
+
+               index++;
+           }
+       }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static void originalDeck() {
 
@@ -37,7 +76,7 @@ public class Cards {
         }
 
         for (int x = 0; x >= mainDeck.length;) {
-            System.out.println(mainDeck) ;
+            System.out.println(mainDeck[x]) ;
         }
 
 
@@ -49,6 +88,5 @@ public class Cards {
 
 
     // method to shuffle the previous array - random number generation, fill a new array with data from last array
-
 
 }
