@@ -10,19 +10,22 @@ public class Card {
 
     boolean is_face_up;
 
-
+    // Constructor for card objects
     public Card(int rank, String suit){
 
         cardRank = rank;
 
         cardSuit = suit;
 
+        // colour can be differentiated by suit (S & C = Spades & Clubs)
         if (suit.equals("S") || suit.equals("C")){
             is_black = true;
         }
 
     }
 
+
+    // getters and setters for Cards; Suit and Rank are already set by constructor
     public String getCardSuit(){
         return cardSuit;
     }

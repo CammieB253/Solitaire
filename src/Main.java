@@ -5,5 +5,6 @@ public class Main {
         Deck _deck = new Deck();
         _deck.createDeck();
 
+        Table.createTablePiles();
     }
 }
