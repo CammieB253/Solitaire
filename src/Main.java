@@ -5,10 +5,13 @@ public class Main {
         Deck deckInstance = new Deck();
         deckInstance.createDeck();
 
-        Pile pileInstance = new Pile();
+
+        int startingCount = 0;
+
+        Pile pileInstance = new Pile(deckInstance, startingCount);
 
         for (int i = 1; i <= 7; i++) {
-            Pile tablepile1 = new Pile(, i);
+            Pile tablepile1 = new Pile(deckInstance, i);
 
 
 
