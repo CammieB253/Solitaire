@@ -1,9 +1,10 @@
 import java.util.*;
 public class Pile {
+    LinkedList<Card> tablePile;
 
     public Pile(Deck deckInstance, int startingCount) {
 
-        LinkedList<Card> tablePile = new LinkedList<Card>();
+        tablePile = new LinkedList<Card>();
 
         for (int i = 1; i <= startingCount; i++) {
 
@@ -11,6 +12,10 @@ public class Pile {
 
         }
 
+    }
+
+    public String toString() {
+        return tablePile.toString();
     }
 
 }

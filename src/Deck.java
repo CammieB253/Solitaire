@@ -10,7 +10,7 @@ public class Deck {
     }
 
     ArrayList<Card> cardDeck = new ArrayList<Card>();
-    ArrayList<Card> shuffledCardDeck = new ArrayList<Card>();
+
 
 
     /**
@@ -24,7 +24,7 @@ public class Deck {
         String[] suitList = {"S", "C", "H", "D"};
 
 
-        for (var suit : suitList) {
+        for (String suit : suitList) {
 
             for (int x = 1; x <= 14; x++) {
 
@@ -35,24 +35,21 @@ public class Deck {
 
         Collections.shuffle(cardDeck);
 
-        Collections.copy(shuffledCardDeck, cardDeck);
-
-
     }
 
 
     // method for taking a card from the main deck; Used for creating the 7 table piles
     public Card pullTopCard() {
 
-        Card drawnCard = shuffledCardDeck.get(shuffledCardDeck.size() - 1);
+        Card drawnCard = cardDeck.get(cardDeck.size() - 1);
 
-        shuffledCardDeck.remove(shuffledCardDeck.size() - 1);
+        cardDeck.remove(cardDeck.size() - 1);
 
         return drawnCard;
     }
 
     public ArrayList<Card> getCardDeck() {
-        return shuffledCardDeck;
+        return cardDeck;
     }
 
 

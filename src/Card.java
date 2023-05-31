@@ -2,9 +2,9 @@ import java.util.Objects;
 
 public class Card {
 
-    private int cardRank;
+    public int cardRank;
 
-    private String cardSuit;
+    public String cardSuit;
 
     boolean is_black;
 
@@ -30,9 +30,7 @@ public class Card {
         return cardSuit;
     }
 
-    public int getCardRank(){
-        return cardRank;
-    }
+    public int getCardRank(){return cardRank;}
 
     public boolean getCardDirection(){
         return is_face_up;
@@ -43,5 +41,8 @@ public class Card {
     }
 
 
+    public String toString() {
+        return cardSuit + cardRank;
+    }
 
 }
