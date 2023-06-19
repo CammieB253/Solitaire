@@ -1,5 +1,3 @@
-import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.*;
 
 public class Main {
@@ -9,6 +7,8 @@ public class Main {
 
         Deck deckInstance = new Deck();
         deckInstance.createDeck();
+
+        LinkedList<Card> drawPile = new LinkedList<Card>();
 
         tablePiles = new Pile[7];
 
@@ -21,6 +21,15 @@ public class Main {
 
         }
 
+        for (int i = 1; i <= 7; i++) {
+
+            Card topCard = tablePiles[i-1].get(tablePiles[i-1].getSize());
+            tablePiles[i-1].remove(tablePiles[i-1].getSize());
+            topCard.flip();
+            tablePiles[i-1].add(topCard);
+        }
+
+        System.out.println(deckInstance.cardDeck);
 
         Pile[] acePiles = new Pile[4];
 
@@ -31,11 +40,6 @@ public class Main {
             acePiles[i] = aceSpace;
         }
 
-        // print loop for testing
-        for (int counter = 0; counter <= 6; counter++) {
-            System.out.println("pile " + (counter + 1) + "; ");
-            System.out.println(tablePiles[counter]);
-        }
 
         Card movedCard;
         Card locationCard;
@@ -48,23 +52,31 @@ public class Main {
             System.out.println();
             //currentBoard.describe();
 
-            // code should display the table and piles in a fashion like this;
-            // XX representing face-down card
+            // @@PRINT LOOP@@
 
-            //   P1   P2   P3   P4   P5   P6   P7
-            //   C5   XX   XX   XX   XX   XX   XX
-            //        S8   XX   XX   XX   XX   XX
-            //             H3   XX   XX   XX   XX
-            //                  C1   XX   XX   XX
-            //                       H12  XX   XX
-            //                            S7   XX
-            //                                 D9
+            String out = "";
 
-            // user should then be asked which card/pile to move and which card/pile should be the destination
-            // i.e S8 P2 to D9 P7
+            for (int counter = 1; counter < 7+1; counter++) {
+                out += "P" + counter + "\t \t" ;
+            }
+            out += "\n";
+
+            for (int currentRow = 0 ; currentRow < tablePiles.length ; currentRow++ ) {
+                for (Pile currentPile : tablePiles) {
+                 if(currentRow < currentPile.getSize()) {
+                        out +=  currentPile.get(currentRow).toString() + "\t \t";
+                    }
+                }
+                out += "\n";
+            }
+
+            System.out.println(out);
+
+            // @@PRINT LOOP@@
 
             System.out.print("> ");
             String command = input.nextLine().toLowerCase();
+
 
 
             if (command.equals("move")) {
@@ -81,26 +93,20 @@ public class Main {
                 String src = input.nextLine();
                 int sourcePile = Integer.parseInt(String.valueOf(src.charAt(1)));
 
-
-                // line for testing
-                System.out.println("Card is at position " + sourceIndex + " within " + sourcePile);
-
                 System.out.println("Which pile do you want to move this card to?");
                 System.out.println("(Only type the pile you want to move to, such as P6 or A2)");
 
                 String dest = input.nextLine();
                 int destinationPile = Integer.parseInt(String.valueOf(dest.charAt(1)));
-                System.out.println(destinationPile);
+                String pileDifferentiator = String.valueOf(dest.charAt(0));
 
                 Main mainInstance = new Main();
-                mainInstance.moveCard(sourceIndex-1, sourcePile-1, destinationPile-1);
+                mainInstance.moveCard(sourceIndex - 1, sourcePile - 1, destinationPile - 1, pileDifferentiator);
 
-
-                // print loop for testing
-                for (int counter = 0; counter <= 6; counter++) {
-                    System.out.println("pile " + (counter + 1) + "; ");
-                    System.out.println(tablePiles[counter]);
-                }
+            } else if (command.equals("draw")){
+                Main mainInstance = new Main();
+                mainInstance.wastePileDraw(drawPile, deckInstance);
+                System.out.println(drawPile);
 
             } else if (command.equals("exit")) {
                 // Ask user if they really want to quit
@@ -116,33 +122,36 @@ public class Main {
 
             } else {
                 // Unknown command entered
-                System.out.println("Unknown command entered \nPlease enter one of the on-screen options");
+                System.out.println("Unknown command entered");
             }
         }
 
 
     }
 
-    public void moveCard(int sourceIndex, int sourcePile, int destinationPile) {
+    public void moveCard(int sourceIndex, int sourcePile, int destinationPile, String pileDifferentiator) {
 
         Pile specifiedPile = tablePiles[sourcePile];
         Card movedCard = specifiedPile.get(sourceIndex);
-        Boolean validMove = validateMove(sourceIndex, sourcePile, destinationPile, movedCard);
 
-        if (validMove = true) {
+        Boolean validMove = validateMove(sourceIndex, sourcePile, destinationPile, movedCard, pileDifferentiator);
+
+        if (validMove) {
             specifiedPile.remove(sourceIndex);
             specifiedPile = tablePiles[destinationPile];
             specifiedPile.add(movedCard);
+        }else{
+            System.out.println("Invalid move");
         }
     }
 
 
-    public Boolean validateMove(int sourceIndex, int sourcePile, int destinationPile, Card movedCard) {
+    public Boolean validateMove(int sourceIndex, int sourcePile, int destinationPile, Card movedCard, String pileDifferentiator) {
 
-        Boolean valid = true;
+        Boolean valid = false;
 
         Pile specifiedPile = tablePiles[destinationPile];
-        Card destinationCard = specifiedPile.get(specifiedPile.getSize()-1);
+        Card destinationCard = specifiedPile.get(specifiedPile.getSize() - 1);
 
         // get suit and rank of the card being moved
         String movedSuit = movedCard.getCardSuit();
@@ -158,29 +167,42 @@ public class Main {
         int destinationRank = destinationCard.getCardRank();
         Boolean destinationColour = destinationCard.getCardColour();
 
-        // pseudocode //
 
-        // Ace Space
-        if ((destinationRank == 0) || (movedRank == 1)) {
-            valid = true;
-        }
+        if (Objects.equals(pileDifferentiator, "A")) {
 
-        // if card is being moved to ace space; - create method for moving cards, replace pseudocode
-        if (!Objects.equals(movedSuit, destinationSuit)) {
+        } else if (!Objects.equals(movedSuit, destinationSuit)) {
             valid = false;
+
         } else if ((destinationRank + 1) != movedRank) {
             valid = false;
+
+
+        } else if (Objects.equals(pileDifferentiator, "P")) {
+
+            if (destinationColour == movedColour) {
+                valid = false;
+
+            } else if ((destinationRank - 1) != movedRank) {
+                valid = false;
+            }
+
+        } return valid;
+    }
+
+    public LinkedList<Card> wastePileDraw (LinkedList<Card> drawPile, Deck deckInstance){
+
+        Card drawnCard = deckInstance.pullTopCard();
+
+        drawPile.add(drawnCard);
+
+        if (drawPile.size() > 3){
+            deckInstance.cardDeck.add(0, drawPile.get(0));
+            drawPile.remove(0);
         }
 
-        // if card is being moved to regular pile; - create method for moving cards, replace pseudocode
-        if (destinationColour == movedColour) {
-            valid = false;
-        } else if ((destinationRank - 1) != movedRank) {
-            valid = false;
-        }
-
-        return valid;
+        return drawPile;
     }
 }
+
 
 

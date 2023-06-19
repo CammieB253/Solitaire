@@ -24,6 +24,7 @@ public class Card {
             is_black = true;
         }
 
+        is_face_up = false;
     }
 
 
@@ -44,13 +45,17 @@ public class Card {
         return is_face_up;
     }
 
-    public void setCardDirection(Boolean flipped) {
-        is_face_up = flipped;
+    public void flip() {
+        is_face_up = true;
     }
 
 
     // toString override for printing cards
     public String toString() {
+        if (!is_face_up){
+            return "XX";
+        }
+
         return cardSuit + cardRank;
     }
 

@@ -42,13 +42,10 @@ public class Deck {
     // method for taking a card from the main deck; Used for creating the 7 table piles
     public Card pullTopCard() {
 
-        Card drawnCard = cardDeck.get(cardDeck.size() - 1);
-
-        cardDeck.remove(cardDeck.size() - 1);
+        Card drawnCard = cardDeck.remove(cardDeck.size() - 1);
 
         return drawnCard;
     }
-
 
 
     public ArrayList<Card> getCardDeck() {
