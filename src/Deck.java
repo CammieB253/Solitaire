@@ -33,9 +33,10 @@ public class Deck {
             }
         }
 
-        Collections.shuffle(cardDeck);
+           Collections.shuffle(cardDeck);
 
     }
+
 
 
     // method for taking a card from the main deck; Used for creating the 7 table piles
@@ -47,6 +48,8 @@ public class Deck {
 
         return drawnCard;
     }
+
+
 
     public ArrayList<Card> getCardDeck() {
         return cardDeck;

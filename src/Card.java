@@ -1,4 +1,6 @@
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Card {
 
@@ -11,14 +13,14 @@ public class Card {
     boolean is_face_up;
 
     // Constructor for card objects
-    public Card(int rank, String suit){
+    public Card(int rank, String suit) {
 
         cardRank = rank;
 
         cardSuit = suit;
 
         // colour can be differentiated by suit (S & C = Spades & Clubs)
-        if (suit.equals("S") || suit.equals("C")){
+        if (suit.equals("S") || suit.equals("C")) {
             is_black = true;
         }
 
@@ -26,17 +28,23 @@ public class Card {
 
 
     // getters and setters for Cards; Suit and Rank are already set by constructor
-    public String getCardSuit(){
+    public String getCardSuit() {
         return cardSuit;
     }
 
-    public int getCardRank(){return cardRank;}
+    public int getCardRank() {
+        return cardRank;
+    }
 
-    public boolean getCardDirection(){
+    public boolean getCardColour() {
+        return is_black;
+    }
+
+    public boolean getCardDirection() {
         return is_face_up;
     }
 
-    public void setCardDirection(Boolean flipped){
+    public void setCardDirection(Boolean flipped) {
         is_face_up = flipped;
     }
 
@@ -46,4 +54,7 @@ public class Card {
         return cardSuit + cardRank;
     }
 
-}
+
+
+
+    }
