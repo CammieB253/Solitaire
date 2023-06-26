@@ -20,7 +20,11 @@ public class Card {
 
     boolean is_face_up;
 
-    // Constructor for card objects
+    /**
+     * Constructor for generating individual cards
+     * @param rank card rank (1-13)
+     * @param suit card suit (S, C, H, D)
+     */
     public Card(int rank, String suit) {
 
         cardRank = rank;
@@ -36,30 +40,52 @@ public class Card {
     }
 
 
-    // getters and setters for Cards; Suit and Rank are already set by constructor
+    /**
+     * gets suit of a card
+     * @return returns card suit (S, C, H, D)
+     */
     public String getCardSuit() {
         return cardSuit;
     }
 
+    /**
+     * gets rank of a card
+     * @return card rank (1-13)
+     */
     public int getCardRank() {
         return cardRank;
     }
 
+    /**
+     * gets colour of a card
+     * @return Whether or not the card is black
+     */
     public boolean getCardColour() {
         return is_black;
     }
 
+    /**
+     * get whether or not a card is flipped
+     * @return card's direction
+     */
     public boolean getCardDirection() {
         return is_face_up;
     }
 
+    /**
+     * Method for flipping a card
+     */
     public void flip() {
         is_face_up = getCardDirection();
         is_face_up = !is_face_up;
     }
 
 
-    // toString override for printing cards
+    /**
+     * toString override for printing cards
+     * @return Suit and rank of the card as string values
+     */
+
     public String toString() {
         if (!is_face_up){
             return "XX";

@@ -169,11 +169,11 @@ public class Main {
 
     /**
      * Method for moving cards between piles
-     * @param acePiles
-     * @param sourceIndex
-     * @param sourcePile
-     * @param destinationPile
-     * @param pileDifferentiator
+     * @param acePiles The four ace piles that are filled in ascending rank order
+     * @param sourceIndex the position of the moved card within its pile
+     * @param sourcePile the pile the card is being moved from
+     * @param destinationPile the pile the card is being moved to
+     * @param pileDifferentiator A character to differentiate between Ace Piles (A) and Table Piles (P)
      */
 
     public void moveCard(Pile[] acePiles, int sourceIndex, int sourcePile, int destinationPile, String pileDifferentiator) {
@@ -195,13 +195,13 @@ public class Main {
 
     /**
      * Method for checking the validity of a move
-     * @param acePiles
-     * @param sourceIndex
-     * @param sourcePile
-     * @param destinationPile
-     * @param movedCard
-     * @param pileDifferentiator
-     * @return
+     * @param acePiles the four ace piles that are filled in ascending rank order
+     * @param sourceIndex the position of the moved card within its pile
+     * @param sourcePile the pile the card is being moved from
+     * @param destinationPile the pile the card is being moved to
+     * @param movedCard the card object being moved
+     * @param pileDifferentiator  character to differentiate between Ace Piles (A) and Table Piles (P)
+     * @return whether or not the move is valid
      */
     public Boolean validateMove(Pile[] acePiles, int sourceIndex, int sourcePile, int destinationPile, Card movedCard, String pileDifferentiator) {
 
@@ -279,8 +279,8 @@ public class Main {
 
     /**
      * Method for drawing new cards from the waste pile
-     * @param drawPile
-     * @param deckInstance
+     * @param drawPile linked list holding the player's drawn cards, 3 at a time
+     * @param deckInstance instance of the deck class
      * @return
      */
     public LinkedList<Card> wastePileDraw (LinkedList<Card> drawPile, Deck deckInstance){

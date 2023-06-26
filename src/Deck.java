@@ -17,6 +17,7 @@ public class Deck {
 
     }
 
+    // array of cards within the deck
     ArrayList<Card> cardDeck = new ArrayList<Card>();
 
 
@@ -49,7 +50,7 @@ public class Deck {
     /**
      * method for drawing the top card from the main deck
      * Used for making table piles and drawing from waste pile
-     * @return
+     * @return the card that has been drawn
      */
     public Card pullTopCard() {
 
@@ -58,7 +59,10 @@ public class Deck {
         return drawnCard;
     }
 
-
+    /**
+     * Get the array of cards that make up the deck
+     * @return the deck's array of cards
+     */
     public ArrayList<Card> getCardDeck() {
         return cardDeck;
     }
