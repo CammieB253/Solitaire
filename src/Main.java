@@ -1,3 +1,12 @@
+/**
+ * Klondike Solitaire program
+ * Main program file
+ * Contains main game loop
+ * Contains methods for making moves and checking moves
+ *
+ * @author Cameron Buchan
+ */
+
 import java.util.*;
 
 public class Main {
@@ -21,15 +30,6 @@ public class Main {
 
         }
 
-        for (int i = 1; i <= 7; i++) {
-
-            Card topCard = tablePiles[i-1].get(tablePiles[i-1].getSize());
-            tablePiles[i-1].remove(tablePiles[i-1].getSize());
-            topCard.flip();
-            tablePiles[i-1].add(topCard);
-        }
-
-        System.out.println(deckInstance.cardDeck);
 
         Pile[] acePiles = new Pile[4];
 
@@ -45,14 +45,42 @@ public class Main {
         Card locationCard;
 
 
-        Scanner input = new Scanner(System.in);
 
-        while (true) {
+        for (int i = 1; i <= 7; i++) {
+
+            Card topCard = tablePiles[i-1].get(tablePiles[i-1].getSize()-1);
+
+            tablePiles[i-1].remove(tablePiles[i-1].getSize()-1);
+
+            topCard.flip();
+
+            tablePiles[i-1].add(topCard);
+
+        }
+
+
+
+        Scanner input = new Scanner(System.in);
+        Boolean gameWin = false;
+        Boolean[] gameWinArray = new Boolean[4];
+        for (int counter = 0; counter <= 3; counter++){
+            gameWinArray[counter] = false;
+        }
+
+
+        while ((!gameWinArray[0] || !gameWinArray[1] || !gameWinArray[2] || !gameWinArray[3])) {
+
+            for (int counter = 0; counter <= 3; counter++){
+                int pileSize = acePiles[counter].getSize();
+                if (pileSize == 13){
+                    gameWinArray[counter] = true;
+                }
+            }
 
             System.out.println();
             //currentBoard.describe();
 
-            // @@PRINT LOOP@@
+            /** @@PRINT LOOP@@
 
             String out = "";
 
@@ -72,11 +100,19 @@ public class Main {
 
             System.out.println(out);
 
-            // @@PRINT LOOP@@
+            for (int i = 1; i <= 7; i++) {
+
+                System.out.println(tablePiles[i-1].toString());
+            }
+
+             **/
+
+            for (int i = 1; i <= 7; i++) {
+                System.out.println(tablePiles[i-1].toString());
+            }
 
             System.out.print("> ");
             String command = input.nextLine().toLowerCase();
-
 
 
             if (command.equals("move")) {
@@ -101,7 +137,7 @@ public class Main {
                 String pileDifferentiator = String.valueOf(dest.charAt(0));
 
                 Main mainInstance = new Main();
-                mainInstance.moveCard(sourceIndex - 1, sourcePile - 1, destinationPile - 1, pileDifferentiator);
+                mainInstance.moveCard(acePiles, sourceIndex - 1, sourcePile - 1, destinationPile - 1, pileDifferentiator);
 
             } else if (command.equals("draw")){
                 Main mainInstance = new Main();
@@ -120,24 +156,36 @@ public class Main {
                 }
 
 
-            } else {
+            }else{
                 // Unknown command entered
                 System.out.println("Unknown command entered");
             }
         }
 
+        System.out.println("Game won, restart program to play again");
+
 
     }
 
-    public void moveCard(int sourceIndex, int sourcePile, int destinationPile, String pileDifferentiator) {
+    /**
+     * Method for moving cards between piles
+     * @param acePiles
+     * @param sourceIndex
+     * @param sourcePile
+     * @param destinationPile
+     * @param pileDifferentiator
+     */
+
+    public void moveCard(Pile[] acePiles, int sourceIndex, int sourcePile, int destinationPile, String pileDifferentiator) {
 
         Pile specifiedPile = tablePiles[sourcePile];
         Card movedCard = specifiedPile.get(sourceIndex);
 
-        Boolean validMove = validateMove(sourceIndex, sourcePile, destinationPile, movedCard, pileDifferentiator);
+        Boolean validMove = validateMove(acePiles, sourceIndex, sourcePile, destinationPile, movedCard, pileDifferentiator);
 
         if (validMove) {
             specifiedPile.remove(sourceIndex);
+            specifiedPile.get(sourceIndex-1).flip();
             specifiedPile = tablePiles[destinationPile];
             specifiedPile.add(movedCard);
         }else{
@@ -145,13 +193,44 @@ public class Main {
         }
     }
 
-
-    public Boolean validateMove(int sourceIndex, int sourcePile, int destinationPile, Card movedCard, String pileDifferentiator) {
+    /**
+     * Method for checking the validity of a move
+     * @param acePiles
+     * @param sourceIndex
+     * @param sourcePile
+     * @param destinationPile
+     * @param movedCard
+     * @param pileDifferentiator
+     * @return
+     */
+    public Boolean validateMove(Pile[] acePiles, int sourceIndex, int sourcePile, int destinationPile, Card movedCard, String pileDifferentiator) {
 
         Boolean valid = false;
 
-        Pile specifiedPile = tablePiles[destinationPile];
-        Card destinationCard = specifiedPile.get(specifiedPile.getSize() - 1);
+        boolean directionMoved = movedCard.getCardDirection();
+
+        if (!directionMoved){
+            return valid;
+        }
+
+        if (sourcePile == destinationPile){
+            return valid;
+        }
+
+        Pile specifiedPile;
+        Card destinationCard = null;
+
+        if (Objects.equals(pileDifferentiator, "A")) {
+
+            specifiedPile = acePiles[destinationPile];
+
+        }else {
+
+            specifiedPile = tablePiles[destinationPile];
+
+        }
+
+        destinationCard = specifiedPile.get(specifiedPile.getSize() - 1);
 
         // get suit and rank of the card being moved
         String movedSuit = movedCard.getCardSuit();
@@ -168,36 +247,53 @@ public class Main {
         Boolean destinationColour = destinationCard.getCardColour();
 
 
+
+
         if (Objects.equals(pileDifferentiator, "A")) {
+            int pileSize = acePiles[destinationPile].getSize();
+            if (!Objects.equals(movedSuit, destinationSuit)) {
+                valid = false;
 
-        } else if (!Objects.equals(movedSuit, destinationSuit)) {
-            valid = false;
+            } else if (pileSize == 0){
+                valid = true;
+            }
+            else if ((destinationRank + 1) != movedRank) {
+                valid = false;
 
-        } else if ((destinationRank + 1) != movedRank) {
-            valid = false;
-
+            }else{
+                valid = true;
+            }
 
         } else if (Objects.equals(pileDifferentiator, "P")) {
 
-            if (destinationColour == movedColour) {
+            }if (destinationColour == movedColour) {
                 valid = false;
 
             } else if ((destinationRank - 1) != movedRank) {
                 valid = false;
+            }else{
+                valid = true;
             }
+        return valid;
+        }
 
-        } return valid;
-    }
-
+    /**
+     * Method for drawing new cards from the waste pile
+     * @param drawPile
+     * @param deckInstance
+     * @return
+     */
     public LinkedList<Card> wastePileDraw (LinkedList<Card> drawPile, Deck deckInstance){
 
         Card drawnCard = deckInstance.pullTopCard();
-
+        drawnCard.flip();
         drawPile.add(drawnCard);
 
         if (drawPile.size() > 3){
             deckInstance.cardDeck.add(0, drawPile.get(0));
+            drawPile.get(0).flip();
             drawPile.remove(0);
+            System.out.println(deckInstance.cardDeck);
         }
 
         return drawPile;

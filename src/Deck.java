@@ -1,3 +1,11 @@
+/**
+ * Deck class
+ * Contains method for create main deck of cards
+ * Contains method for drawing cards from main deck
+ *
+ * @author Cameron Buchan
+ */
+
 import java.util.Collections;
 import java.util.ArrayList;
 
@@ -38,8 +46,11 @@ public class Deck {
     }
 
 
-
-    // method for taking a card from the main deck; Used for creating the 7 table piles
+    /**
+     * method for drawing the top card from the main deck
+     * Used for making table piles and drawing from waste pile
+     * @return
+     */
     public Card pullTopCard() {
 
         Card drawnCard = cardDeck.remove(cardDeck.size() - 1);

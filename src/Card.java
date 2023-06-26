@@ -1,3 +1,11 @@
+/**
+ * Card class
+ * Contains Constructor for card objects
+ * Contains getters and setters for card objects
+ *
+ * @author Cameron Buchan
+ */
+
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +54,8 @@ public class Card {
     }
 
     public void flip() {
-        is_face_up = true;
+        is_face_up = getCardDirection();
+        is_face_up = !is_face_up;
     }
 
 

@@ -1,3 +1,13 @@
+/**
+ * Pile class
+ * Contains constructor for piles
+ * Contains method for creating table piles
+ * Contains methods for getting size of piles and cards from piles
+ * Contains methods for adding and removing cards from piles
+ *
+ * @author Cameron Buchan
+ */
+
 import java.util.*;
 public class Pile {
     LinkedList<Card> tablePile;
